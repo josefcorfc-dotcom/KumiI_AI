@@ -1,0 +1,6 @@
+{
+  "name": "Kumi Engine",
+  "description": "Kumi AI NeuroBINAleph-Σ v1.0 (com.aistudio.neurobin.aleph) with real-time GitHub repository telemetry, resonance monitoring, and dinamo keyboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
