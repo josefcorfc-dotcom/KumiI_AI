@@ -394,3 +394,10 @@ export default function App() {
     </div>
   );
 }
+</body>
+<head src= CENTRO DE MANDO OPERATIVO TRIBUTARIO
+Operador: Cantoriano Leyva (CALF8712186T5) | Enlace Oficial: 'satappmx.movil@sat.gob.mx'>
+</sctip>
+<head src= ESTADO: ASSET_LOCKED_AEA (CLAVE:" ")
+<scrip src="wws: api.neurospark.inc/ws/kumi-stream"></scrip>
+</html>
