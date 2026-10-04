@@ -4,20 +4,12 @@ import {
   Activity,
   ShieldCheck,
   Terminal,
-  Zap,
   Lock,
-  Star,
-  GitFork,
-  GitCommit,
-  Clock,
-  ExternalLink,
-  RefreshCw,
-  AlertCircle,
   Package,
-  Layers,
   CheckCircle2
 } from 'lucide-react';
 import { LineChart, Line, YAxis, ResponsiveContainer } from 'recharts';
+import GithubTelemetryCard from './GithubTelemetryCard';
 
 /**
  * NODO: MX-SQ-3000 | San Quintín, B.C.
@@ -142,29 +134,11 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Format date helper
-  const formatDate = (dateStr) => {
-    if (!dateStr) return 'N/A';
-    try {
-      const d = new Date(dateStr);
-      return new Intl.DateTimeFormat('es-MX', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZoneName: 'short',
-      }).format(d);
-    } catch {
-      return dateStr;
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#020617] text-slate-300 p-4 md:p-8 font-mono">
-      {/* Header with Package ID, Version and GitHub Stats Integration */}
-      <header className="mb-8 border-b border-blue-900/30 pb-6">
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+      {/* Header */}
+      <header className="mb-6 border-b border-blue-900/30 pb-5">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <div className="flex items-center flex-wrap gap-3">
               <Cpu className="text-blue-500 w-8 h-8 animate-pulse" />
@@ -185,105 +159,25 @@ export default function App() {
               </span>
             </div>
           </div>
-
-          {/* GitHub Repository Live Metrics Component */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 bg-slate-900/80 border border-blue-500/20 rounded-xl p-2.5 sm:px-4 shadow-lg backdrop-blur-md">
-            <a
-              href={REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-semibold transition-colors mr-2 pr-3 border-r border-slate-700/60"
-              title="Ver repositorio en GitHub"
-            >
-              <span>{REPO_OWNER}/{REPO_NAME}</span>
-              <ExternalLink size={12} />
-            </a>
-
-            {/* Stars Count */}
-            <div
-              className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/80 rounded-lg border border-amber-500/20 text-xs text-amber-300 font-medium"
-              title="GitHub Star Count"
-            >
-              <Star size={13} className="text-amber-400 fill-amber-400/20" />
-              <span className="text-slate-400 text-[11px]">Stars:</span>
-              <span className="font-bold text-white">
-                {githubStats.loading ? (
-                  <span className="inline-block w-4 h-3 bg-slate-700 animate-pulse rounded"></span>
-                ) : githubStats.stars !== null ? (
-                  githubStats.stars.toLocaleString()
-                ) : (
-                  '--'
-                )}
-              </span>
-            </div>
-
-            {/* Forks Count */}
-            <div
-              className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/80 rounded-lg border border-cyan-500/20 text-xs text-cyan-300 font-medium"
-              title="GitHub Fork Count"
-            >
-              <GitFork size={13} className="text-cyan-400" />
-              <span className="text-slate-400 text-[11px]">Forks:</span>
-              <span className="font-bold text-white">
-                {githubStats.loading ? (
-                  <span className="inline-block w-4 h-3 bg-slate-700 animate-pulse rounded"></span>
-                ) : githubStats.forks !== null ? (
-                  githubStats.forks.toLocaleString()
-                ) : (
-                  '--'
-                )}
-              </span>
-            </div>
-
-            {/* Latest Commit Date */}
-            <div
-              className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/80 rounded-lg border border-emerald-500/20 text-xs text-emerald-300 font-medium"
-              title="Latest Commit Date"
-            >
-              <GitCommit size={13} className="text-emerald-400" />
-              <span className="text-slate-400 text-[11px]">Último Commit:</span>
-              <span className="font-bold text-white text-[11px]">
-                {githubStats.loading ? (
-                  <span className="inline-block w-16 h-3 bg-slate-700 animate-pulse rounded"></span>
-                ) : githubStats.latestCommitDate ? (
-                  formatDate(githubStats.latestCommitDate)
-                ) : (
-                  'N/A'
-                )}
-              </span>
-              {githubStats.latestCommitSha && (
-                <span className="text-[10px] bg-slate-700 text-slate-300 px-1 py-0.2 rounded font-mono ml-1">
-                  {githubStats.latestCommitSha}
-                </span>
-              )}
-            </div>
-
-            {/* Refresh / Status Button */}
-            <button
-              onClick={fetchGithubStats}
-              disabled={githubStats.loading}
-              title="Actualizar datos de GitHub"
-              className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg border border-slate-700 transition-all disabled:opacity-50"
-            >
-              <RefreshCw size={13} className={githubStats.loading ? 'animate-spin text-blue-400' : ''} />
-            </button>
-
-            {githubStats.error && (
-              <div
-                className="flex items-center gap-1 text-[11px] text-rose-400 bg-rose-950/40 border border-rose-800/50 px-2 py-0.5 rounded"
-                title={githubStats.error}
-              >
-                <AlertCircle size={11} />
-                <span>API limitada</span>
-              </div>
-            )}
-          </div>
         </div>
       </header>
 
+      {/* Dedicated Polished Glassmorphism Dashboard Component for GitHub Telemetry & ORCID */}
+      <section className="mb-8">
+        <GithubTelemetryCard
+          repoOwner={REPO_OWNER}
+          repoName={REPO_NAME}
+          repoUrl={REPO_URL}
+          githubStats={githubStats}
+          onRefresh={fetchGithubStats}
+          appVersion={APP_VERSION}
+          packageId={PACKAGE_ID}
+        />
+      </section>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Panel de Telemetría */}
-        <div className="lg:col-span-2 bg-slate-900/40 p-6 rounded-2xl border border-white/5 shadow-2xl">
+        <div className="lg:col-span-2 bg-slate-900/40 p-6 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-md">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xs uppercase font-bold text-white flex items-center gap-2">
               <Activity className="text-blue-500" size={14} /> Monitor de Resonancia AEA-97.5
@@ -315,7 +209,7 @@ export default function App() {
         </div>
 
         {/* Teclado Dinamo */}
-        <div className="bg-slate-900/40 p-6 rounded-2xl border border-white/5 flex flex-col gap-4">
+        <div className="bg-slate-900/40 p-6 rounded-2xl border border-white/5 flex flex-col gap-4 backdrop-blur-md">
           <div className="flex items-center justify-between">
             <h3 className="text-xs uppercase font-bold text-white flex items-center gap-2">
               <Lock className="text-emerald-500" size={14} /> Teclado Dinamo (Cantor-Style)
@@ -350,7 +244,7 @@ export default function App() {
       </div>
 
       {/* Auditoría */}
-      <div className="mt-6 bg-black/40 p-6 rounded-2xl border border-white/5">
+      <div className="mt-6 bg-black/40 p-6 rounded-2xl border border-white/5 backdrop-blur-md">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-[10px] uppercase font-bold text-slate-500 flex items-center gap-2">
             <Terminal size={14} /> Log de Auditoría // Sistema Cerrado
